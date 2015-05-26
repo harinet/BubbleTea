@@ -1,0 +1,26 @@
+﻿<Window x:Class="ClientManager.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientManager"
+        xmlns:vi="clr-namespace:ClientManager.Views"
+        mc:Ignorable="d"
+        Title="Client Manager" Height="350" Width="525">
+    <Grid x:Name="ShellGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl Name="ListView" Grid.Row="0" Height="Auto" Grid.Column="0" Width="Auto" VerticalAlignment="Stretch">
+            <TabItem Header="Bubble Tea Editor" Height="Auto" Width="Auto">
+                <vi:TeaEditor VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Grid.Row="0"></vi:TeaEditor>
+            </TabItem>
+            <TabItem Header="Customers">
+                <vi:CustomerEditor x:Name="customerEditor" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

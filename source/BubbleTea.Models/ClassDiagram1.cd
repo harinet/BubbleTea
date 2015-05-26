@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BubbleTea_Web.Item">
+    <Position X="6" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BubbleTea_Web.GroupOffering">
+    <Position X="2.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GroupOffering.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BubbleTea_Web.GroupItem">
+    <Position X="4.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAABAAgAAAAAAEAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>GroupItems.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="GroupOffering" />
+      <Property Name="Item" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BubbleTea_Web.ComboType">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ComboType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BubbleTea_Web.ComboItem">
+    <Position X="0.75" Y="2.25" Width="1.5" />
+    <AssociationLine Name="GroupItem1" Type="BubbleTea_Web.GroupItem">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.235" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACGAABEAAAgAAAQAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>ComboItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ComboType" />
+      <Property Name="GroupItem1" />
+      <Property Name="GroupItem2" />
+      <Property Name="Size" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BubbleTea_Web.Size">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Size.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BubbleTea_Web.ComboToppings">
+    <Position X="4.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAABAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAQA=</HashCode>
+      <FileName>ComboToppings.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="GroupItem" />
+      <Property Name="ComboItem" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BubbleTea_Web.ItemPrice">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAAAAkAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ItemPrice.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Item" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BubbleTea_Web.Order">
+    <Position X="6.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAiAAAAAAAAAAgAAIAAAAAA=</HashCode>
+      <FileName>Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BubbleTea_Web.OrderItem">
+    <Position X="2" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECECAAAAAQAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQA=</HashCode>
+      <FileName>OrderItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Order" />
+      <Property Name="ComboItem" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

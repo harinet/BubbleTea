@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="ClientManager.Views.CustomerEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClientManager.Views"
+             xmlns:inf="clr-namespace:ClientManager.Infrastructure"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <inf:InverseBooleanConverter x:Key="inverse" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.4*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding Users}" SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="True"
+                        AutoGenerateColumns="False" SelectedItem="{Binding SelectedUser, Mode=Default, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="UserName" Binding="{Binding Path=UserName}" IsReadOnly="True" Width="0.3*" />
+                <DataGridTextColumn Header="First Name" Binding="{Binding Path=FirstName}" IsReadOnly="True" Width="0.3*" />
+                <DataGridTextColumn Header="Last Name" Binding="{Binding Path=LastName}" IsReadOnly="True" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0">First Name</Label>
+                <TextBox Text="{Binding SelectedUser.FirstName}" Grid.Column="2" Grid.Row="0" Width="140" Height="40" IsReadOnly="{Binding IsDisabled}"></TextBox>
+                <Label Grid.Column="0" Grid.Row="1">Last Name</Label>
+                <TextBox Text="{Binding SelectedUser.LastName}" Grid.Column="2" Grid.Row="1" Width="140" Height="40" IsReadOnly="{Binding IsDisabled}"></TextBox>
+                <Label Grid.Column="0" Grid.Row="2">Date of Birth</Label>
+                <DatePicker SelectedDate="{Binding SelectedUser.DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="2" Width="140" Height="40"  IsEnabled="{Binding IsDisabled, Converter={StaticResource inverse}}"></DatePicker>
+                <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal">
+                    <Button Content="{Binding AddEdit}" Command="{Binding EditCommand}" Height="30" Width="60" />
+                    <Button Content="Save" Command="{Binding SaveCommand}" Height="30" Width="60" Padding="10,0,10,0" />
+                    <Button Content="Cancel" Command="{Binding CancelCommand}" Height="30" Width="60" Padding="10,0,10,0" />
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</UserControl>

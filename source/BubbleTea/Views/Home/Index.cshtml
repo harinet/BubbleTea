@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Bubble Tea</h1>
+    <p class="lead">Welcome to Bubble Tea Bonanza.</p>
+    @*<p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+
+<div class="row">
+    @*<div class="col-md-4">
+        <h2>Bubble Tea</h2>
+        <p>
+            Welcome to Bubble Tea Bonanza. Please login to continue
+        </p>
+    </div>*@
+@using Microsoft.AspNet.Identity
+@if (!Request.IsAuthenticated)
+{
+    <p class="lead">Please login to continue.</p>
+    <div class="col-md-4">
+        <p>
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+        </p>
+    </div>
+    <div class="col-md-4">
+        <p>
+            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+        </p>
+    </div>
+}
+</div>
