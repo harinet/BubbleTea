@@ -18,9 +18,9 @@ namespace ClientManager.ViewModel
         private IDataRepository service = null;
         private ObservableCollection<User> _users = null;
 
-        public CustomerEditorViewModel()
+        public CustomerEditorViewModel(IDataRepository _service)
         {
-            service = DataService.Repository;
+            service = _service;
             GetAllUsers();
             SelectedUser = new User();
             AddEdit = ADD;

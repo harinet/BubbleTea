@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClientManager.Views"
              xmlns:inf="clr-namespace:ClientManager.Infrastructure"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding Customer, Source={StaticResource Locator}}">
     <UserControl.Resources>
         <inf:InverseBooleanConverter x:Key="inverse" />
     </UserControl.Resources>

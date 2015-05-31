@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace ClientManager.ViewModel
 {
@@ -20,7 +21,7 @@ namespace ClientManager.ViewModel
 
         public ItemEditorViewModel(string groupType, bool isSizeApplicable = false)
         {
-            service = DataService.Repository;
+            service = SimpleIoc.Default.GetInstance<IDataRepository>();
             _groupType = groupType;
             GetGroupItems();
             GetSize();

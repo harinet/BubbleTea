@@ -24,7 +24,6 @@ namespace ClientManager.Views
         public ItemEditor()
         {
             InitializeComponent();
-            //this.DataContext = new ItemEditorViewModel();
         }
     }
 }
