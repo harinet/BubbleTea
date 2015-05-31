@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClientManager.Views"
+             xmlns:inf="clr-namespace:ClientManager.Infrastructure"
              mc:Ignorable="d" 
              >
+    <UserControl.Resources>
+        <inf:InverseBooleanConverter x:Key="inverse" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.7*"/>
@@ -20,8 +25,9 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Height="50">
+            <ComboBox ItemsSource="{Binding Size}" Height="30" Width="100" SelectedItem="{Binding SelectedSize}" SelectedIndex="-1" Padding="2,0,2,0" Visibility="{Binding IsSizeApplicable, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsDisabled, Converter={StaticResource inverse}}" />
             <Label VerticalContentAlignment="Center" VerticalAlignment="Center">Item Name:</Label>
-            <TextBox IsReadOnly="{Binding IsDisabled}" Text="{Binding SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="90" Height="30"/>
+            <TextBox IsReadOnly="{Binding IsDisabled}" Text="{Binding SelectedItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="90" Height="30"/>
             <Label VerticalAlignment="Center">Price:</Label>
             <TextBox IsReadOnly="{Binding IsDisabled}" Text="{Binding SelectedItemPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Height="30"/>
         </StackPanel>

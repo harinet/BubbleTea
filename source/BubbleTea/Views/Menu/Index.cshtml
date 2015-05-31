@@ -9,12 +9,14 @@
         function model() {
             this.chosenTea = ko.observable("");
             this.chosenFlavor = ko.observable("");
-            this.siz = ko.observable("1");
+            this.siz = ko.observable("Small");
             this.itemPrices = @Html.Raw(Json.Encode(Model.ItemPrices));
             this.itemPrices["0"] = 0;
             this.tops = ko.observableArray([]);
+            this.selectedBase = ko.computed(function(){
+                return (this.chosenTea() +' - '+ this.siz());}, this);
             this.price = ko.computed(function () {
-                return (parseFloat(this.siz()) + parseFloat(this.itemPrices[this.chosenTea()]) + parseFloat(this.itemPrices[this.chosenFlavor()]) + conc(this.tops(), this.itemPrices));
+                return (parseFloat(this.itemPrices[this.chosenTea() +' - '+ this.siz()]) + parseFloat(this.itemPrices[this.chosenFlavor()]) + conc(this.tops(), this.itemPrices));
             }, this);
         }
 
@@ -34,7 +36,7 @@
 }
 
 <h2>Menu</h2>
-@using (Html.BeginForm("AddToOrder", "Order", FormMethod.Post, new { model = Model}))
+@using (Html.BeginForm("AddToOrder", "Menu", FormMethod.Post, new { model = Model}))
 {
 <div>
     <h4>Make your tea</h4>
@@ -42,7 +44,7 @@
     <div class="row">
         <div class="col-md-4">
             Base Tea:
-            @Html.DropDownListFor(model => model.SelectedBaseTea, Model.BaseTeaItems, new { data_bind = "value: chosenTea", @class = "form-control" })
+            @Html.DropDownListFor(model => model.SelectedBaseTea, Model.BaseTeaItems.Select(p => new SelectListItem { Text = p, Value = p } ), new { data_bind = "value: chosenTea", @class = "form-control" })
         </div>
         <div class="col-md-4">
             Flavor:
@@ -63,9 +65,9 @@
     <div class="row">
         <div class="col-md-4">
             Size:
-            @Html.RadioButtonFor(model => model.SelectedSize, (int)Enum.Parse(typeof(BubbleTea.Models.SizeEnum), "Small"), new { data_bind = "checked: siz" }) @HtmlTextWriter.SpaceChar Small
-            @Html.RadioButtonFor(model => model.SelectedSize, (int)Enum.Parse(typeof(BubbleTea.Models.SizeEnum), "Medium"), new { data_bind = "checked: siz" }) @HtmlTextWriter.SpaceChar Medium
-            @Html.RadioButtonFor(model => model.SelectedSize, (int)Enum.Parse(typeof(BubbleTea.Models.SizeEnum), "Large"), new { data_bind = "checked: siz" }) @HtmlTextWriter.SpaceChar Large
+            @Html.RadioButtonFor(model => model.SelectedSize, BubbleTea.Models.SizeEnum.Small, new { data_bind = "checked: siz" }) @HtmlTextWriter.SpaceChar Small
+            @Html.RadioButtonFor(model => model.SelectedSize, BubbleTea.Models.SizeEnum.Medium, new { data_bind = "checked: siz" }) @HtmlTextWriter.SpaceChar Medium
+            @Html.RadioButtonFor(model => model.SelectedSize, BubbleTea.Models.SizeEnum.Large, new { data_bind = "checked: siz" }) @HtmlTextWriter.SpaceChar Large
         </div>
     </div>
     <div class="row">
@@ -74,10 +76,16 @@
         </div>
     </div>
     <div class="pull-right">
-        @Html.Hidden("Price", Model.Price, new { data_bind="value: price" })
+        @Html.Hidden("Price", Model.Price, new { data_bind = "value: price" })
+        @Html.Hidden("SelectedBase", Model.SelectedBaseTea, new { data_bind = "value: selectedBase" })
         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
         <input type="submit" class="btn btn-success" value="Add to order" />
     </div>
 </div>
 }
-
+<div>
+    <br />
+    <br />
+    <br />
+    @Html.Action("OrderItems", "Menu")
+</div>

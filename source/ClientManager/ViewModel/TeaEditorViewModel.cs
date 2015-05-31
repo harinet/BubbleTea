@@ -10,7 +10,7 @@ namespace ClientManager.ViewModel
     {
         public TeaEditorViewModel()
         {
-            BaseTeaViewModel = new ItemEditorViewModel("Base Tea");
+            BaseTeaViewModel = new ItemEditorViewModel("Base Tea", true);
             FlavorViewModel = new ItemEditorViewModel("Flavor");
             ToppingsViewModel = new ItemEditorViewModel("Toppings");
         }

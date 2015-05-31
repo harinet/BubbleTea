@@ -27,11 +27,20 @@ namespace BubbleTea.Models
         public List<GroupItem> Toppings { get; set; }
         public List<Size> Sizes { get; set; }
 
-        public IEnumerable<SelectListItem> BaseTeaItems
+        //public IEnumerable<SelectListItem> BaseTeaItems
+        //{
+        //    get
+        //    {
+        //        return BaseTea.Select(q => new SelectListItem() { Text = q.Item.Name, Value = q.Item.Id.ToString() });
+        //    }
+        //}
+
+        public IEnumerable<string> BaseTeaItems
         {
             get
             {
-                return BaseTea.Select(q => new SelectListItem() { Text = q.Item.Name, Value = q.Item.Id.ToString() });
+                var items = BaseTea.Select(r => r.Item.Name).Select(p => p.Substring(0, p.IndexOf('-') - 1)).GroupBy(q => q).Select(w => w.Key);
+                return items;
             }
         }
 
@@ -48,9 +57,13 @@ namespace BubbleTea.Models
         {
             get
             {
+                //foreach (var item in BaseTea)
+                //{
+                //    _itemPrices.Add(item.ItemId.ToString(), item.Item.Prices.First(p => p.IsActive).Price);
+                //}
                 foreach (var item in BaseTea)
                 {
-                    _itemPrices.Add(item.ItemId.ToString(), item.Item.Prices.First(p => p.IsActive).Price);
+                    _itemPrices.Add(item.Item.Name.ToString(), item.Item.Prices.First(p => p.IsActive).Price);
                 }
                 foreach (var item in Flavors)
                 {

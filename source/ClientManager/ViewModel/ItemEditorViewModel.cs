@@ -15,14 +15,17 @@ namespace ClientManager.ViewModel
     {
         private IDataRepository service = null;
         private ObservableCollection<Item> _groupItems = null;
+        private List<string> _size = null;
         private string _groupType;
 
-        public ItemEditorViewModel(string groupType)
+        public ItemEditorViewModel(string groupType, bool isSizeApplicable = false)
         {
             service = DataService.Repository;
             _groupType = groupType;
             GetGroupItems();
+            GetSize();
             SelectedItem = new Item();
+            IsSizeApplicable = isSizeApplicable;
         }
 
         public string GroupType { get { return _groupType; } }
@@ -32,11 +35,24 @@ namespace ClientManager.ViewModel
             GroupItems = new ObservableCollection<Item>(service.GetAllGroupItems().Where(p => p.GroupOffering.Name == GroupType).Select(q => q.Item));
         }
 
+        private void GetSize()
+        {
+            Size = service.GetAllSizes().Select(p => p.Name).ToList();
+        }
+
+        public List<string> Size
+        {
+            get { return _size; }
+            set { _size = value; OnPropertyChanged(); }
+        }
+
         public ObservableCollection<Item> GroupItems
         {
             get { return _groupItems; }
             set { _groupItems = value; OnPropertyChanged(); }
         }
+
+        public bool IsSizeApplicable { get; set; }
 
         private Item _selectedItem;
         public Item SelectedItem
@@ -49,7 +65,15 @@ namespace ClientManager.ViewModel
                     _selectedItem = value;
                     IsDisabled = true;
                     if (_selectedItem != null)
+                    {
                         SelectedItemPrice = _selectedItem.Price;
+                        if(IsSizeApplicable && _selectedItem.Id > 0)
+                        {
+                            var x = _selectedItem.Name.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                            SelectedItemName = x[0].Trim();
+                            SelectedSize = x[1].Trim();
+                        }
+                    }
                     OnPropertyChanged();
                 }
             }
@@ -60,6 +84,13 @@ namespace ClientManager.ViewModel
         {
             get { return _selectedItemName; }
             set { _selectedItemName = value; OnPropertyChanged(); }
+        }
+
+        private string _selectedSize;
+        public string SelectedSize
+        {
+            get { return _selectedSize; }
+            set { _selectedSize = value; OnPropertyChanged(); }
         }
 
         private decimal _selectedItemPrice;
@@ -83,7 +114,7 @@ namespace ClientManager.ViewModel
 
         public ICommand AddCommand
         {
-            get { return new RelayCommand((s) => { SelectedItem = new Item(); IsDisabled = false; }); }
+            get { return new RelayCommand((s) => { SelectedItem = new Item(); IsDisabled = false; ClearBoundedProperties(); }); }
         }
 
         public ICommand DeleteCommand
@@ -108,7 +139,7 @@ namespace ClientManager.ViewModel
                 var groupOfferingId = service.GetGroupIdByName(GroupType);
                 service.DeleteGroupItem(SelectedItem.Id, groupOfferingId);
                 GetGroupItems();
-                SelectedItemPrice = 0;
+                ClearBoundedProperties();
             }
         }
 
@@ -118,7 +149,10 @@ namespace ClientManager.ViewModel
             {
                 GroupItem gi = new GroupItem();
                 gi.GroupOfferingId = service.GetGroupIdByName(GroupType);
-                gi.Item = new Item() { Name = SelectedItem.Name, Id = 0 };
+                if(IsSizeApplicable)
+                    gi.Item = new Item() { Name = SelectedItemName + " - " + SelectedSize, Id = 0 };
+                else
+                    gi.Item = new Item() { Name = SelectedItemName, Id = 0 };
                 ItemPrice ip = new ItemPrice() { Id = 0, IsActive = true, Price = SelectedItemPrice, Tax = 0 };
                 gi.Item.Prices.Add(ip);
                 service.AddGroupItem(gi);
@@ -127,10 +161,18 @@ namespace ClientManager.ViewModel
             else
             {
                 var itemPrice = new ItemPrice() { IsActive = true, ItemId = SelectedItem.Id, Price = SelectedItemPrice, Tax = 0 };
+                SelectedItem.Name = SelectedItemName;
                 service.AddItemPrice(SelectedItem, itemPrice);
                 GetGroupItems();
             }
             SelectedItem = new Item();
+            ClearBoundedProperties();
+        }
+
+        private void ClearBoundedProperties()
+        {
+            SelectedItemName = string.Empty;
+            SelectedItemPrice = 0;
         }
     }
 }

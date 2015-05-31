@@ -13,6 +13,7 @@ namespace BubbleTea.Models
 
     public class OrderLineItem
     {
+        public int SerialNo { get; set; }
         public Item BaseTea { get; set; }
         public Item Flavor { get; set; }
         public List<Item> Toppings { get; set; }
